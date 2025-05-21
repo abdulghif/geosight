@@ -1,0 +1,48 @@
+# .github/workflows/workflow.yml
+
+name: Geosight Workflow
+
+# 1. Trigger: This workflow runs when a new GitHub Release is created.
+on:
+  release:
+    types: [published] # Runs when a release is published (not just drafted)
+
+# 2. Jobs: Defines a sequence of tasks.
+jobs:
+  build-and-publish:
+    name: Build and publish Python 🐍 distributions to PyPI
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    # 3. Steps: A sequence of commands/actions to execute.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Checks out your code
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x' # Use the latest 3.x Python version
+          # You can specify a particular version like '3.9' or '3.10'
+
+      - name: Install pypa/build and twine
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build twine
+        # This step installs 'build' to create your package files
+        # and 'twine' to upload them to PyPI.
+
+      - name: Build package
+        run: python -m build
+        # This command creates the sdist and wheel files in a 'dist/' directory.
+        # It assumes your project has a setup.py or pyproject.toml.
+
+      - name: Publish package to PyPI
+        env:
+          # 4. Environment Variable: This uses the secret you'll configure in GitHub.
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
+        # 'twine upload' takes all files from the 'dist/' directory.
+        # '__token__' is the required username when using an API token.
+        # The password is your PyPI API token, securely accessed via GitHub secrets.
