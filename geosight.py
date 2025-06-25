@@ -1,6 +1,6 @@
 from math import radians,sin,cos,asin,sqrt,atan2,degrees
 import geohash
-
+import h3
 
 def calculate_distance(
     lat1:float,
@@ -38,7 +38,6 @@ def calculate_distance(
     
     distance = c*r
     return(distance)
-
   
 def get_custom_grid(
     lat:float,
@@ -86,6 +85,36 @@ def get_custom_grid(
         grid_id = initial_hash+'_'+grid_id
 
     return grid_id
+
+def get_h3_grid(lat, lon, grid):
+    """
+    Convert geographic coordinates to H3 hexagonal grid index.
+    
+    This function takes latitude and longitude coordinates and converts them
+    to an H3 hexagonal grid cell identifier at the specified resolution level.
+    H3 is a hierarchical hexagonal geospatial indexing system developed by Uber.
+    
+    Parameters
+    ----------
+    lat : float
+        Latitude coordinate in decimal degrees (WGS84).
+        Valid range: -90.0 to 90.0
+    lon : float
+        Longitude coordinate in decimal degrees (WGS84).
+        Valid range: -180.0 to 180.0
+    grid : int
+        H3 resolution level (0-15).
+        - 0: Largest hexagons (~1000km edge length)
+        - 15: Smallest hexagons (~0.5m edge length)
+        Higher numbers provide finer spatial resolution.
+    
+    Returns
+    -------
+    str
+        H3 index as a hexadecimal string representing the hexagonal cell
+        that contains the input coordinates at the specified resolution.
+    """
+    return h3.geo_to_h3(lat, lon, grid)
 
   
 def get_lat_long(
