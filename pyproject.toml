@@ -20,6 +20,3 @@ classifiers = [
     "License :: OSI Approved :: MIT License", # Example, change if needed
     "Operating System :: OS Independent",
 ]
-
-[tool.setuptools]
-py-modules = ["geosight"]
