@@ -11,7 +11,7 @@ from pyspark.sql.types import (
     StructType,
     StructField
 )
-from geosight import (
+from geosight.geosight import (
     calculate_distance,
     get_custom_grid,
     get_h3_grid,
