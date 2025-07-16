@@ -6,6 +6,7 @@ setup(
     author='Abdullah Ghifari',
     install_requires=[
         'python-geohash==0.8.5',
+        'h3==3.7.7'
     ],
     py_modules = ['geosight']
 )
