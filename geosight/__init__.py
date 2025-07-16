@@ -1,2 +1,2 @@
-from geosight import geosight
-from geosight import geosight_pyspark
+from .geosight import *
+from .geosight_pyspark import *
