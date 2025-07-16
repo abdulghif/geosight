@@ -1,2 +1,0 @@
-python-geohash==0.8.5
-pip install h3==3.7.7
